@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.being.mapper.BeatCardInfoMapper">
+  <resultMap id="BaseResultMap" type="com.being.model.BeatCardInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_id" jdbcType="BIGINT" property="createId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_id" jdbcType="BIGINT" property="updateId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.being.model.BeatCardInfo">
+    insert into beat_card_info (user_id, create_time,create_id, update_time, update_id)
+    values (#{userId}, #{createTime},#{createId}, #{updateTime}, #{updateId})
+  </insert>
+  
+  <select id="selectBeatCard" parameterType="com.being.model.BeatCardInfo" resultType="com.being.model.BeatCardInfo">
+    select * from beat_card_info
+    where 1=1 and user_id = #{userId}
+	<if test="createTime != null and createTime != '' ">
+		and to_days(create_time) = to_days(#{createTime})
+	</if>    
+  </select>
+</mapper>

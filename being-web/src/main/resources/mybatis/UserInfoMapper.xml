@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.being.mapper.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.being.model.UserInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="gender" jdbcType="CHAR" property="gender" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="cellphone" jdbcType="VARCHAR" property="cellphone" />
+    <result column="full_name" jdbcType="VARCHAR" property="fullName" />
+    <result column="id_type" jdbcType="CHAR" property="idType" />
+    <result column="id_num" jdbcType="VARCHAR" property="idNum" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="source" jdbcType="CHAR" property="source" />
+    <result column="avater_path" jdbcType="VARCHAR" property="avaterPath" />
+    <result column="reg_channel" jdbcType="CHAR" property="regChannel" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_id" jdbcType="BIGINT" property="createId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_id" jdbcType="BIGINT" property="updateId" />
+    <result column="num_auth_flog" jdbcType="BIT" property="numAuthFlog" />
+    <result column="user_address" jdbcType="VARCHAR" property="userAddress" />
+  </resultMap>
+  <insert id="insert" parameterType="com.being.model.UserInfo"  keyProperty="id" useGeneratedKeys="true">
+    insert into user_info (name, password, 
+      gender, email, cellphone, 
+      full_name, id_type, id_num, 
+      status, source, avater_path, 
+      reg_channel, create_time, create_id, 
+      update_time, update_id, num_auth_flog, user_address
+      )
+    values (#{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=CHAR}, #{email,jdbcType=VARCHAR}, #{cellphone,jdbcType=VARCHAR}, 
+      #{fullName,jdbcType=VARCHAR}, #{idType,jdbcType=CHAR}, #{idNum,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{source,jdbcType=CHAR}, #{avaterPath,jdbcType=VARCHAR}, 
+      #{regChannel,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateId,jdbcType=BIGINT}, #{numAuthFlog,jdbcType=BIT},
+      #{userAddress,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateById" parameterType="com.being.model.UserInfo">
+    update user_info
+    set name = #{name,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=CHAR},
+      email = #{email,jdbcType=VARCHAR},
+      cellphone = #{cellphone,jdbcType=VARCHAR},
+      full_name = #{fullName,jdbcType=VARCHAR},
+      id_type = #{idType,jdbcType=CHAR},
+      id_num = #{idNum,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      source = #{source,jdbcType=CHAR},
+      avater_path = #{avaterPath,jdbcType=VARCHAR},
+      reg_channel = #{regChannel,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_id = #{createId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_id = #{updateId,jdbcType=BIGINT},
+      num_auth_flog = #{numAuthFlog,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByIdBlock" parameterType="com.being.model.UserInfo">
+    update user_info
+    set user_address = #{userAddress,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectObj" parameterType="com.being.model.UserInfo" resultType="com.being.model.UserInfo">
+    select id, name, password, gender, email, cellphone, full_name as fullName, id_type as idType, id_num as idNum, 
+    status, source, avater_path as avaterPath, reg_channel as regChannel, create_time as createTime, create_id as createId, 
+    update_time as updateTime, update_id as updateId, num_auth_flog as numAuthFlog, user_address as userAddress
+    from user_info
+    where 1=1
+    <if test="id != null and id != '' ">
+	   and id = #{id,jdbcType=BIGINT}
+    </if>
+    <if test="name != null and name != '' ">
+	   and name = #{name}
+    </if>
+    <if test="password != null and password != '' ">
+	   and password = #{password}
+    </if>
+    
+    <if test="email != null and email != '' ">
+	   and email = #{email}
+    </if>
+    <if test="cellphone != null and cellphone != '' ">
+	   and cellphone = #{cellphone}
+    </if>
+    <if test="idNum != null and idNum != '' ">
+	   and id_num = #{idNum}
+    </if>
+    <if test="userAddress != null and userAddress != '' ">
+	   and user_address = #{userAddress}
+    </if>
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, name, password, gender, email, cellphone, full_name, id_type, id_num, 
+    status, source, avater_path, reg_channel, create_time, create_id, update_time, update_id, 
+    num_auth_flog,user_address
+    from user_info
+  </select>
+</mapper>

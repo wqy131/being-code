@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.being.mapper.FileInfoMapper">
+  <resultMap id="BaseResultMap" type="com.being.model.FileInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="file_type" jdbcType="CHAR" property="fileType" />
+    <result column="status" jdbcType="CHAR" property="status" />
+    <result column="external_id" jdbcType="BIGINT" property="externalId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_id" jdbcType="BIGINT" property="createId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_id" jdbcType="BIGINT" property="updateId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <insert id="insert" parameterType="com.being.model.FileInfo" keyProperty="id" useGeneratedKeys="true">
+    insert into file_info (file_name, file_path, 
+      file_type, status, external_id, 
+      create_time, create_id, update_time, 
+      update_id, remark)
+    values (#{fileName,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, 
+      #{fileType,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{externalId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateId,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateById" parameterType="com.being.model.FileInfo">
+    update file_info
+    set file_name = #{fileName,jdbcType=VARCHAR},
+      file_path = #{filePath,jdbcType=VARCHAR},
+      file_type = #{fileType,jdbcType=CHAR},
+      status = #{status,jdbcType=CHAR},
+      external_id = #{externalId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_id = #{createId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_id = #{updateId,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateByFileName">
+    update file_info
+    set 
+      status = #{status},
+      external_id = #{createId},
+      create_time = #{createTime},
+      create_id = #{createId}
+    where file_name in
+    <foreach collection="filenames" item="fileName" index="index"
+         open="(" close=")" separator=",">
+         #{fileName}
+     </foreach>
+  </update>
+  
+  <select id="selectById" parameterType="java.lang.Long" resultType="com.being.model.FileInfo">
+    select id, file_name, file_path, file_type, status, external_id, create_time, create_id, 
+    update_time, update_id, remark
+    from file_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="getListByFileInfo" parameterType="com.being.model.FileInfo" resultMap="BaseResultMap">
+    select id, file_name, file_path, file_type, status, external_id, create_time, create_id, 
+    update_time, update_id, remark
+    from file_info
+    where 1=1 
+    <if test="status != null and status != '' ">
+    	and status = #{status}
+    </if>
+  </select>
+</mapper>
